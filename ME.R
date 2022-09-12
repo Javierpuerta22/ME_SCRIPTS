@@ -7,7 +7,7 @@ dd <- read.csv(paste0(path, "database.csv"),sep = ",")
 set.seed(1)
 
 
-#-------- en el caso que salgan las 1034 filas vacías --------
+#-------- en el caso que salgan las 1034 filas vac?as --------
 
 dd <- dd[-(8100:9134),]      #filas vacias
 
@@ -18,7 +18,7 @@ dd <- dd[, c(-1, -7, -16, -19, -21, -20)]
 
 dd$Months.Since.Last.Claim[sample(1:8099, size = 405) ] <- NA
 
-na_en_tabla <- apply(is.na(dd), 2, sum)    #solo dice el número de NA que hay en el database
+na_en_tabla <- apply(is.na(dd), 2, sum)    #solo dice el numero de NA que hay en el database
 
 na_en_tabla
 
