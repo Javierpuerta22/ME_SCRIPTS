@@ -1,36 +1,29 @@
-path <- "C:/Users/pelot/Desktop/ME_SCRIPTS"
+#------- descargar el csv y fijar una seed para poner los NA ----------
+
+path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
 
 dd <- read.csv(paste0(path, "database.csv"),sep = ",")
 
+set.seed(1)
+
+
+#-------- en el caso que salgan las 1034 filas vacías --------
+
 dd <- dd[-(8100:9134),]      #filas vacias
 
-#eliminar columnas que no queremos
+#-------- eliminamos las columnas que hemos decidido quitar ----------
 dd <- dd[, c(-1, -7, -16, -19, -21, -20)]
 
+#-------- Ponemos NA aleatorios en la variable escogida ---------
 
-na_en_tabla <- apply(is.na(dd), 2, sum)
+dd$Months.Since.Last.Claim[sample(1:8099, size = 405) ] <- NA
+
+na_en_tabla <- apply(is.na(dd), 2, sum)    #solo dice el número de NA que hay en el database
 
 na_en_tabla
 
 
-
-#sampling de 3000 aleatorias
-
-rand_df <- dd[sample(nrow(dd), size = 3000),]
-
-summary(rand_df)
-
-summary(rand_df$Gender)
-
-#proporciones
-
-a = table(dd$Gender)
-
-prop.table(a)
-
-class(dd$Number.of.Policies)
-
-#dataframe con numericas solo
+#--------- dataframe con numericas solo ---------------
 
 clases <- lapply(dd, class)      #lista con las clases de cada variable
 
@@ -38,7 +31,7 @@ numericdd <- subset.data.frame(dd, drop = FALSE, select = which(clases == "numer
 
 pairs(numericdd)
 
-#funcion univariable
+#---------- funcion descriptiva univariable ---------
 
 
 info_uni <- function(X, nom){
