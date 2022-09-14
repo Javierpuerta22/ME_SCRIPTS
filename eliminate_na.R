@@ -1,4 +1,4 @@
-path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
+path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/"
 
 library(class)
 
