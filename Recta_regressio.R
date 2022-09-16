@@ -25,3 +25,26 @@ ml1step <- stepAIC(ml1, direction="both", trace=1)
 
 summary(ml1step)
 plot(ml1)
+
+
+
+
+#------ recta logistica titanic ejemplo ----------
+train <- read.csv('http://idaejin.github.io/courses/R/data/titanic_train.csv',header=TRUE,row.names=1)
+test <- read.csv('http://idaejin.github.io/courses/R/data/titanic_test.csv',header=TRUE,row.names=1)
+
+model <- glm(Survived ~.,family=binomial(link='logit'),data=train)
+summary(model)
+
+mod3 <-  glm(Survived ~ Pclass + Sex + Pclass:Sex + Age + SibSp, family = binomial(logit), data = train)
+summary(mod3)
+
+fitted.results <- predict(mod3,newdata=test,type='response')
+fitted.results <- ifelse(fitted.results > 0.5,1,0)
+
+misClasificError <- mean(fitted.results != test$Survived)
+print(paste('Accuracy',1-misClasificError))
+
+
+
+
