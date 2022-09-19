@@ -3,6 +3,8 @@
 #---------- funcion descriptiva univariante ---------
 
 #X es un dataframe cualquiera
+install.packages("viridis")
+library(viridisLite)
 
 info_uni <- function(X){
   for (var in c(1:ncol(X))){
@@ -12,10 +14,10 @@ info_uni <- function(X){
     if (class(X[,var]) == "character"){
       tabla = table(X[var])
       print(prop.table(tabla))
-      barplot(tabla, main = paste0("Barplot de ", colnames(X[var])))
+      barplot(tabla, main = paste0("Barplot de ", colnames(X[var])), col= viridis(10))
     }
     else{
-      hist(X[,var], main = paste0("Histograma de ", colnames(X[var])))
+      hist(X[,var], main = paste0("Histograma de ", colnames(X[var])),  col=viridis(18))
       print(summary(X[var]))
     }
   }
