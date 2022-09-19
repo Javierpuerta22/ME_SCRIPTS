@@ -7,17 +7,17 @@
 info_uni <- function(X){
   for (var in c(1:ncol(X))){
     
-    print(paste0("le toca la info a la variable ", colnames(X[var])))
+    print(paste0("Informació sobre la variable ", colnames(X[var])))
     
     if (class(X[,var]) == "character"){
       tabla = table(X[var])
       print(prop.table(tabla))
+      barplot(tabla, main = paste0("Barplot de ", colnames(X[var])))
     }
     else{
       hist(X[,var], main = paste0("Histograma de ", colnames(X[var])))
-      summary(X[var])
+      print(summary(X[var]))
     }
-    
   }
  
   
