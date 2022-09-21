@@ -1,0 +1,24 @@
+---
+title: "Descriptiva_bivariable"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r inicialización, include = FALSE}
+path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
+
+dd <- read.csv(paste0(path, "database_pre.csv"),sep = ";")
+
+source(paste0(path, "descriptiva.R"))
+```
+
+
+```{r funciones, echo=FALSE, results='markup'}
+
+info_bi(dd)
+
+```
