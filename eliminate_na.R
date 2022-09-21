@@ -43,5 +43,13 @@ dd$Months.Since.Last.Claim <- Months.Since.Last.Claim
 
 write.table(dd, file = "database_pre.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 
+## 80% of the sample size
+smp_size <- floor(0.8 * nrow(dd))
 
+## set the seed to make your partition reproducible
+set.seed(123)
+train_ind <- sample(seq_len(nrow(dd)), size = smp_size)
+
+train <- dd[train_ind, ]
+test <- dd[-train_ind, ]
 
