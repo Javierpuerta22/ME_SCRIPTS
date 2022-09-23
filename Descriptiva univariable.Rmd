@@ -17,7 +17,7 @@ source(paste0(path, "descriptiva.R"))
 ```
 
 
-```{r funciones, echo=FALSE, results='markup'}
+```{r funciones, echo=FALSE}
 
 info_uni(dd)
 

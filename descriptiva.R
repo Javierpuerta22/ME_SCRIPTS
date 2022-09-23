@@ -60,11 +60,14 @@ info_bi <- function(X){
       
       if (class(v1) == "character" & class(v2) == "character" ){
         tabla <- table(v1, v2)
-        tabla
+        barplot(tabla, main = paste0("Barplot de ", name1, " vs ", name2), cex.names = 1, col= c(1:length(levels(factor(v1)))), legend.text = TRUE ,beside = TRUE)
+        print(tabla)
+        print(paste0("El test de chi^2 entre ", name1, " i ", name2, " val: "))
+        print(chisq.test(v1, v2))
         
       }
       
-      if ((class(v1) == "numeric" | class(v1) == "integer" )& (class(v2) == "numeric" | class(v2) == "integer")){
+      else if ((class(v1) == "numeric" | class(v1) == "integer" )& (class(v2) == "numeric" | class(v2) == "integer")){
         plot(v1, v2)
         
         print(paste0("La correlació entre ", name1, " i ",name2 ," és de: ", cor(v1, v2)))
@@ -72,7 +75,16 @@ info_bi <- function(X){
       }
       
       else{
-        
+        if (class(v1) == "character" & (class(v2) == "numeric" | class(v2) == "integer" )) {
+          
+          tabla2 <- tapply(v2, v1, mean)
+          barplot(tabla2 ,main=paste("Mitjanes de ", name2," per categories de ", name1 ), col = c(1:length(levels(factor(v1)))) )        
+          print(tabla2)
+        }
+        if (class(v2) == "character" & (class(v1) == "numeric" | class(v1) == "integer" )){
+        tabla3 <- tapply(v1, v2, mean)
+        barplot(tabla3, main = paste("Mitjanes de ", name1," per categories de ", name2 ), col = c(1:length(levels(factor(v2)))))
+        print(tabla2)}
       }
       }
     }
