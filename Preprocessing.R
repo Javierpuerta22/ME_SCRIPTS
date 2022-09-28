@@ -66,5 +66,26 @@ train$Months.Since.Last.Claim <- Months.Since.Last.Claim
 write.table(train, file = "train.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 write.table(test, file = "test.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 
+#-------- mimmi ---------------------------------
+
+nombres_na <- names(which(colSums(is.na(train)) > 0))
+nombres_sin <- colnames(train)[which(!colnames(train) %in% nombres_na)]
+
+library(cluster)
+
+dissimMatrix <- daisy(train[,nombres_sin], metric="grower", stand = TRUE)
+
+dissimMatrix <- dissimMatrix^2
+
+h1 <- hclust(dissimMatrix, method = "ward.D2")
+
+c2 <- cutree(h1, 3)
+
+train[, "cluster"] <- c2
+
+for (var in nombres_na){
+  aggregate(train[, var], by = train$cluster, mean, na.rm = TRUE)
+  train[, paste0(var, "_imp")] <- agr[match(train$cluster, agr$cluster), "media"]
+}
 
 
