@@ -1,37 +1,39 @@
 
-path <-  '/Users/liza/Desktop/UNIVER/2.1/ME/ME_SCRIPTS/'
-fichero <- 'database_pre.csv'
-dd <- read.csv(paste0(path, fichero), sep = ";")
-head(dd)
+path <-  '/Users/usuari/Desktop/2IA/ME/ME_SCRIPTS/'
+data <- read.csv(paste0(path,"database.csv"),sep=";")
+train <- read.csv(paste0(path,"train.csv"),sep=";")
+test <- read.csv(paste0(path,"test.csv"),sep=";")
 
-# Modifiquem el nom d'alguns nivells de factor
-dd$Gender <- ifelse(dd$Gender == "M", 0, 1) # Male = 0 / Female = 1
-table(dd$Gender)
+aux.train <- train
+aux.test <- test
 
-# Dividim les dades en dos grups: entrenament(70 %) i prova(30 %)
-n <- dim(dd)[1]
+table(data$Gender)
+aux.train$Gender <- ifelse(train$Gender == "M", 0, 1) # Male = 0 / Female = 1
+table(aux.train$Gender)
 
-set.seed(1234)
-train <- sample(1:n, 0.8*n)
-
-dd.train <- dd[train,]
-dd.test <- dd[-train,]
-
-ytrain <- dd$Gender[train]
-ytest <- dd$Gender[-train]
+aux.test$Gender <- ifelse(test$Gender == "M", 0, 1) # Male = 0 / Female = 1
+table(aux.test$Gender)
 
 
 # Model logístic
-m1 <- glm(Gender ~ . , family = binomial, data = dd.train)
+m1 <- glm(aux.train$Gender ~ . , family = binomial, data= train)
 summary(m1)
+plot(m1)
+
+library(MASS)
+library(RcmdrMisc)
+modelo <- stepwise(m1, direction='backward/forward', criterion='AIC')
+plot(modelo)
+
+summary(modelo)
 
 # Variables significativas
 sig.var <- summary(m1)$coeff[-1,4] < 0.01
 names(sig.var)[sig.var == TRUE]
 
 # Predim amb el model logístic el conjunt test
-pred1 <- predict.glm(m1,newdata = dd.test, type="response")
-result1 <- table(ytest, floor(pred1+0.5))
+pred1 <- predict.glm(m1,newdata = test, type="response")
+result1 <- table(aux.test$Gender, floor(pred1+0.5))
 result1
 
 error1 <- sum(result1[1,2], result1[2,1])/sum(result1)
@@ -42,9 +44,10 @@ error1
 install.packages("gplots")
 library(ROCR)
 
-pred = ROCR::prediction(pred1,ytest)
+pred = ROCR::prediction(pred1,aux.test$Gender)
 perf <- performance(pred, "tpr", "fpr")
 plot(perf)
 
 AUCLog1=performance(pred, measure = "auc")@y.values[[1]]
 cat("AUC: ",AUCLog1,"n")
+
