@@ -1,4 +1,4 @@
-#dd <- read.csv("C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/database.csv")
+train <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train.csv", sep = ";")
 
 
 varsConNA <- names(which(colSums(is.na(train))>0))
@@ -26,13 +26,15 @@ train[,"cluster"] <- c2
 
 
 for (varNA in varsConNA) {
-  agr <- aggregate(train[,varNA], by = list(train$cluster), mean, na.rm=TRUE)
+  agr <- aggregate(train[,is.na(varNA)], by = list(train$cluster), mean, na.rm=TRUE)
   train[,paste0(varNA, "_imp")] <- agr[match(train$cluster, agr$Group.1), "x"]
 }
 
 
-             
-             
-table(c2)
+hist(dd$Months.Since.Last.Claim) 
 
-table(c1,c2)
+hist(train$Months.Since.Last.Claim)
+
+train$cluster <- NULL
+
+write.table(train, file = "train.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
