@@ -1,13 +1,10 @@
-
 path <-  '/Users/usuari/Desktop/2IA/ME/ME_SCRIPTS/'
-data <- read.csv(paste0(path,"database.csv"),sep=";")
 train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 
 aux.train <- train
 aux.test <- test
 
-table(data$Gender)
 aux.train$Gender <- ifelse(train$Gender == "M", 0, 1) # Male = 0 / Female = 1
 table(aux.train$Gender)
 
