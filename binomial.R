@@ -2,7 +2,7 @@
 path <-  '/Users/usuari/Desktop/2IA/ME/ME_SCRIPTS/'
 train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
-
+#auxiliars
 aux.train <- train
 aux.test <- test
 
