@@ -13,3 +13,5 @@ clases <- lapply(train, class)      #lista con las clases de cada variable
 aux <- subset.data.frame(train, drop = FALSE, select = which(clases == "numeric" | clases == "integer"))
 
 pc <- PCA(aux, scale.unit = TRUE)
+
+fviz_pca(pc)
