@@ -63,8 +63,8 @@ Months.Since.Last.Claim[is.na(Months.Since.Last.Claim)] <- as.numeric(levels(knn
 
 train$Months.Since.Last.Claim <- Months.Since.Last.Claim
 
-write.table(train, file = "train.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 write.table(test, file = "test.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
+write.table(train, file = "train.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 
 
 
