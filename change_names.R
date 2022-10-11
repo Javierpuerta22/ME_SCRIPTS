@@ -7,7 +7,7 @@ var_fact = c("State", "Coverage", "Education", "EmploymentStatus", "Location.Cod
 
 train_mod[, var_fact] <- lapply(train_mod[, var_fact], as.factor)
 
-colnames(train_mod) <- c("ST", "CLV", "Resp.", "Cov.", "EDUC", "EMPS", "GEN", "INC", "LOCC", "MARS", "MPA", "MSLC", "MSPI", "NOP", "PT", "TCA", "VC", "VS")
+colnames(train_mod) <- c("ST", "CLV", "Resp.", "COV", "EDUC", "EMPS", "GEN", "INC", "LOCC", "MARS", "MPA", "MSLC", "MSPI", "NOP", "PT", "TCA", "VC", "VS")
 
 #Cambiar etiquetas
 levels(train_mod$ST) <- c("AR", "CAL", "NEV", "OR", "WASH")

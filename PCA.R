@@ -7,30 +7,26 @@ library(FactoMineR)
 library(factoextra)
 library(ggplot2)
 
-train <- read.csv("D:/UPC/ME/ME_SCRIPTS/train.csv", sep = ";")
+train2 <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train_fact.csv", sep = ";")
 
-clases <- lapply(train, class)      #lista con las clases de cada variable
+var_fact = c("ST", "COV", "EDUC", "EMPS", "LOCC", "MARS", "PT", "VC", "VS")
+
+train2[, var_fact] <- lapply(train2[, var_fact], as.factor)
+
+
+train <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train.csv", sep = ";")
+
+clases <- lapply(train2, class)      #lista con las clases de cada variable
 
 aux <- subset.data.frame(train, drop = FALSE, select = which(clases == "numeric" | clases == "integer"))
 
-<<<<<<< HEAD
-aux2 <- subset.data.frame(train, drop = FALSE, select = which(clases == "character"))
+
+aux2 <- subset.data.frame(train2, drop = FALSE, select = which(clases == "factor"))
 
 
-num = list()
-cat = list()
+MC <- MCA(aux2)
 
-
-
-for (i in length(clases)){
-  if (i == "character"){
-    num = c(num, i)
-  }
-  else{
-    cat = c(cat, i)
-  }
-}
-
+fviz_mca(MC)
 
 pc <- PCA(aux, scale.unit = TRUE, ncp = 7)
 
@@ -46,14 +42,14 @@ a$cor
 
 
 
-res.pca <- PCA(train, scale.unit = TRUE, quali.sup = c(1,3,4,5,6,7, 9,10,15,17,18), graph=FALSE)
+pc <- PCA(train, scale.unit = TRUE, quali.sup = c(1,2,3,4,5,15,16,17,18), graph=FALSE)
 
 
 fviz_pca_ind(res.pca, habillage = 15,
              addEllipses =TRUE, ellipse.level = 0.5) +
   scale_color_brewer(palette="Dark2") +
   theme_minimal()
-=======
+
 pc <- PCA(aux, scale.unit = TRUE)
 
 ## PLOTS =============================================================================================================
@@ -70,7 +66,7 @@ fviz_pca_ind(pc, col.ind="contrib") + scale_color_gradient(low="blue", high="red
 fviz_pca_ind(pc, select.ind = list(contrib = 20))
 
 # Color individuals by groups (FALTA MODIFICAR "habillage" PARA NUESTRA BASE DE DATOS)
-fviz_pca_ind(pc, label="none", habillage=iris$Species)
+fviz_pca_ind(pc, label="none", habillage=2)
 
 
 ## GRAPHS OF VARIABLES -----------------------------------------------------------------------------------------------
@@ -89,9 +85,9 @@ fviz_pca_var(pc, col.var="contrib")+ scale_color_gradient2(low="cornflowerblue",
 fviz_pca_biplot(pc, label ="var")
 
 # Change the color by groups, add ellipses  (FALTA MODIFICAR "habillage" PARA NUESTRA BASE DE DATOS)
-fviz_pca_biplot(pc, label="var", habillage=iris$Species,
+fviz_pca_biplot(pc, label="var", habillage=7,
                 addEllipses=TRUE, ellipse.level=0.95)
 
 # Color according to the individuals' contribution 
 fviz_pca_biplot(pc, geom = "point", pointsize = 1.5, col.ind="contrib") + scale_color_gradient(low="blue", high="red")
->>>>>>> 135f62d2abf2ff3741b2ebe25bd5f1c8c21e7e4a
+
