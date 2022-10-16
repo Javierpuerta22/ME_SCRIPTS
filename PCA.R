@@ -7,26 +7,12 @@ library(FactoMineR)
 library(factoextra)
 library(ggplot2)
 
-train2 <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train_fact.csv", sep = ";")
-
-var_fact = c("ST", "COV", "EDUC", "EMPS", "LOCC", "MARS", "PT", "VC", "VS")
-
-train2[, var_fact] <- lapply(train2[, var_fact], as.factor)
-
-
 train <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train.csv", sep = ";")
 
-clases <- lapply(train2, class)      #lista con las clases de cada variable
+clases <- lapply(train, class)      #lista con las clases de cada variable
 
 aux <- subset.data.frame(train, drop = FALSE, select = which(clases == "numeric" | clases == "integer"))
 
-
-aux2 <- subset.data.frame(train2, drop = FALSE, select = which(clases == "factor"))
-
-
-MC <- MCA(aux2)
-
-fviz_mca(MC)
 
 pc <- PCA(aux, scale.unit = TRUE, ncp = 7)
 
