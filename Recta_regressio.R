@@ -1,5 +1,5 @@
-path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/"
-dd <- read.csv(paste0(path,"database_pre.csv"),sep=";")
+path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
+dd<- read.csv(paste0(path,"train.csv"),sep=";")
 
 #https://fhernanb.github.io/libro_regresion/rls.html
 #Tutorial de regressions
