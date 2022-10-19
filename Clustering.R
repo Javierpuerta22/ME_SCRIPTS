@@ -3,6 +3,8 @@ path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
 data <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 
+library(factoextra)
+
 attach(data)
 
 
@@ -37,4 +39,7 @@ Ib1
 
 data[,ncol(data)+1] <- k1$cluster
 names(data)[ncol(data)] <- "Kmeans"
+
+plot <- fviz_cluster(k1, data=dcon, geom="point")
+plot
 
