@@ -34,11 +34,11 @@ result1 <- table(aux.test$Gender, floor(pred1+0.5))
 result1
 
 error1 <- sum(result1[1,2], result1[2,1])/sum(result1)
-error1
+error1 *100
 
 
 
-install.packages("gplots")
+#install.packages("gplots")
 library(ROCR)
 
 pred = ROCR::prediction(pred1,aux.test$Gender)

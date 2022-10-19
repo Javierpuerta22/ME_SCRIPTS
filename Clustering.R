@@ -1,10 +1,9 @@
 #clustering
 path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
-data <- read.csv(paste0(path,"train.csv"),sep=";")
-test <- read.csv(paste0(path,"test.csv"),sep=";")
+data <- read.csv(paste0(path,"database_pre.csv"), sep = ";")
 
-library(FactoMineR)
-library(factoextra)
+
+sum(is.na(data))
 
 attach(data)
 
@@ -40,8 +39,8 @@ Ib1
 data[,ncol(data)+1] <- k1$cluster
 names(data)[ncol(data)] <- "Kmeans"
 
-plot = fviz_cluster(k1, data= dcon, geom="point")
-plot
+write.table(data, file = "database_cluster.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
+
 
 
 for (i in colnames(dcon)){
@@ -50,4 +49,4 @@ for (i in colnames(dcon)){
 
 colores = c("Red", "Blue", "Green", "Yellow")
 
-plot(data$Monthly.Premium.Auto, data$Customer.Lifetime.Value, col= colores[data$Kmeans])
+plot(data$Income, data$Customer.Lifetime.Value, col= colores[data$Kmeans])

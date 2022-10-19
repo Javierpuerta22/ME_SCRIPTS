@@ -2,7 +2,7 @@ library(FactoMineR)
 library(factoextra)
 library(ggplot2)
 
-train <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train_fact.csv", sep = ";")
+train <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/database_pre.csv", sep = ";")
 
 var_fact = c("ST", "COV", "EDUC", "EMPS", "LOCC", "MARS", "PT", "VC", "VS")
 

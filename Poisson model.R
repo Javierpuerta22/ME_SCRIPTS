@@ -2,26 +2,30 @@ path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
 data <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 
-#plot(data, pch = as.numeric(data$Monthly.Premium.Auto))
 
-modelo <- glm(Monthly.Premium.Auto ~ Months.Since.Last.Claim + Total.Claim.Amount , family = poisson, data = data)
-modelo
+hist(data$Months.Since.Last.Claim)
 
-modelo.completo <- glm(Customer.Lifetime.Value ~ . , family = poisson(link = "log"), data = data)
+modelo.completo <- glm(Months.Since.Last.Claim ~ . , family = poisson(link = "log"), data = data)
 summary(modelo.completo)
 
 library(MASS)
 library(RcmdrMisc)
+#install.packages("arm")
+
 modelo <- stepwise(modelo.completo, direction='backward/forward', criterion='AIC')
+summary(modelo)
 plot(modelo)
 
-confint(modelo)
+library(arm)
+coef1 = coef(modelo)
+coef1
 
-p.est <- predict(modelo, type = "response")
+coef2 = se.coef(modelo)
+coef2
 
+fitted(modelo)
 
-tabla <- table(test$Customer.Lifetime.Value, p.est)
-tabla
+p.est <- predict(modelo, newdata = test, type = "response")
 
-accuracy <- sum(tabla[1,1], tabla[2,2])/sum(tabla)
-accuracy * 100
+tabla <- table(test$Months.Since.Last.Claim, p.est)
+summary(tabla)

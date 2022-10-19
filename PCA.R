@@ -7,11 +7,11 @@ library(FactoMineR)
 library(factoextra)
 library(ggplot2)
 
-train <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train.csv", sep = ";")
+dd <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/database_pre.csv", sep = ";")
 
-clases <- lapply(train, class)      #lista con las clases de cada variable
+clases <- lapply(dd, class)      #lista con las clases de cada variable
 
-aux <- subset.data.frame(train, drop = FALSE, select = which(clases == "numeric" | clases == "integer"))
+aux <- subset.data.frame(dd, drop = FALSE, select = which(clases == "numeric" | clases == "integer"))
 
 
 pc <- PCA(aux, scale.unit = TRUE, ncp = 7)
@@ -28,7 +28,7 @@ a$cor
 
 
 
-pc <- PCA(train, scale.unit = TRUE, quali.sup = c(1,2,3,4,5,15,16,17,18), graph=FALSE)
+pc <- PCA(dd, scale.unit = TRUE, quali.sup = c(1,2,3,4,5,15,16,17,18), graph=FALSE)
 
 
 fviz_pca_ind(res.pca, habillage = 15,

@@ -1,4 +1,4 @@
-dd <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/train_fact.csv", sep = ";")
+dd <- read.csv("C:/Users/pelot/Desktop/ME_SCRIPTS/database_pre.csv", sep = ";")
 
 #alternatively 
 #dd<- <your-data-frame>
@@ -66,7 +66,7 @@ attributes(pc1)
 pc1$rotation
 
 # STORAGE OF THE EIGENVALUES, EIGENVECTORS AND PROJECTIONS IN THE nd DIMENSIONS
-View(pc1$x)
+#View(pc1$x)
 dim(pc1$x)
 dim(dcon)
 dcon[2000,]
