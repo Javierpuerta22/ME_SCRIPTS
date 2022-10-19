@@ -1,6 +1,6 @@
 path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
 data <- read.csv(paste0(path,"train.csv"),sep=";")
-test <- read.csv(paste0(path,"train.csv"),sep=";")
+test <- read.csv(paste0(path,"test.csv"),sep=";")
 
 #plot(data, pch = as.numeric(data$Monthly.Premium.Auto))
 
