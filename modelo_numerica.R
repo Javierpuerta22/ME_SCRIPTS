@@ -18,9 +18,9 @@ corrplot::corrplot(corr = cor(train[, numeriques]), method = "number" )
 
 
 respuesta <- "Total.Claim.Amount"
-hist(train[,respuesta])
+hist(train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
 
-aux <- colnames(train)[which(!colnames(train) %in% c(respuesta, "Policy.Type", "Education", "Vehicle.Class", "Vehicle.Size"))]
+aux <- colnames(train)[which(!colnames(train) %in% c(respuesta,"Months.Since.Last.Claim", "Customer.Lifetime.Value", "Coverage", "EmploymentStatus", "Policy.Type", "Education", "Vehicle.Class", "Vehicle.Size"))]
 explicativas <- paste0(aux, collapse = " + ")
 modelo <- paste0(respuesta, " ~ ", explicativas)
 

@@ -1,10 +1,12 @@
 #clustering
-path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
+path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
 data <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 
-attach(data)
+library(FactoMineR)
+library(factoextra)
 
+attach(data)
 
 dcon <- data.frame(Customer.Lifetime.Value,Income,Monthly.Premium.Auto,Months.Since.Last.Claim,Months.Since.Policy.Inception, Number.of.Policies)
 dim(dcon)
@@ -38,3 +40,14 @@ Ib1
 data[,ncol(data)+1] <- k1$cluster
 names(data)[ncol(data)] <- "Kmeans"
 
+plot = fviz_cluster(k1, data= dcon, geom="point")
+plot
+
+
+for (i in colnames(dcon)){
+  plot(data[,i], data[, next(i)])
+}
+
+colores = c("Red", "Blue", "Green", "Yellow")
+
+plot(data$Monthly.Premium.Auto, data$Customer.Lifetime.Value, col= colores[data$Kmeans])
