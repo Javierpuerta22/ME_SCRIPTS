@@ -1,31 +1,23 @@
 path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
-data <- read.csv(paste0(path,"train.csv"),sep=";")
+train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 
+respuesta <- "Months.Since.Policy.Inception"
+hist(train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
 
-hist(data$Months.Since.Last.Claim)
+aux <- colnames(train)[which(!colnames(train) %in% c(respuesta,"State", "Education", "Vehicle.Class","EmploymentStatus", "Vehicle.Size"))]
+explicativas <- paste0(aux, collapse = " + ")
+modelo <- paste0(respuesta, " ~ ", explicativas)
 
-modelo.completo <- glm(Months.Since.Last.Claim ~ . , family = poisson(link = "log"), data = data)
+modelo.completo <- glm(modelo, family = poisson(link = "log"), data = data)
 summary(modelo.completo)
 
 library(MASS)
 library(RcmdrMisc)
-#install.packages("arm")
-
 modelo <- stepwise(modelo.completo, direction='backward/forward', criterion='AIC')
 summary(modelo)
 plot(modelo)
 
-library(arm)
-coef1 = coef(modelo)
-coef1
-
-coef2 = se.coef(modelo)
-coef2
-
-fitted(modelo)
-
 p.est <- predict(modelo, newdata = test, type = "response")
-
-tabla <- table(test$Months.Since.Last.Claim, p.est)
-summary(tabla)
+cor(p.est,test$Months.Since.Last.Claim)
+#|Cor| of 0.64
