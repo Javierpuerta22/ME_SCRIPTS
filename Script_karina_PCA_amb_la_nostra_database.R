@@ -179,14 +179,28 @@ text(X,Y,labels=etiq,col="gray", cex=0.7)
 
 #add centroids
 c<-1
+
+par(mfrow = c(3, 4))
+
 for(k in dcat){
+  #represent numerical variables in background
+  plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-1,1), ylim=c(-3,1))
+  #plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+  axis(side=1, pos= 0, labels = F, col="cyan")
+  axis(side=3, pos= 0, labels = F, col="cyan")
+  axis(side=2, pos= 0, labels = F, col="cyan")
+  axis(side=4, pos= 0, labels = F, col="cyan")
+  
   seguentColor<-colors[c]
   
   fdic1 = tapply(Psi[,eje1],dd[,k],mean)
   fdic2 = tapply(Psi[,eje2],dd[,k],mean) 
   
   #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
-  text(fdic1,fdic2,labels=levels(factor(dd[,k])),col=seguentColor, cex=0.6)
+  text(fdic1,fdic2,labels=levels(factor(dd[,k])),col=seguentColor, cex=1.2)
   c<-c+1
 }
-legend("bottomleft",names(dd)[dcat],pch=1,col=colors, cex=0.6)
+par(mfrow = c(1, 1))
+
+legend("bottomleft",names(dd)[dcat],pch=1,col=colors, cex=0.9)
+
