@@ -1,6 +1,7 @@
 #install.packages("Metrics")
 library(Metrics)
 
+
 path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
 
 train <- read.csv(paste0(path, "train.csv"),sep = ";")
@@ -39,8 +40,9 @@ plot(ml1step)
 
 actual <- test[, respuesta]
 
-prediccio <- predict(ml1step, test)
+prediccio <- predict(ml1step, test, type = "response")
 
+cor(actual, prediccio)
 
 accuracy(actual, prediccio)
 
