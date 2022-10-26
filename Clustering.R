@@ -57,8 +57,43 @@ write.table(data, file = "database_cluster.csv", sep = ";", na = "NA", dec = "."
 for (i in colnames(dcon)){
   plot(data[,i], data[, next(i)])
 }
-
 colores = c("Red", "Blue", "Green", "Yellow")
-
 plot(data$Income, data$Customer.Lifetime.Value, col= colores[data$Kmeans])
+<<<<<<< HEAD
 >>>>>>> 659a54ce56dbc1a2be7133a2c54819c1417f9525
+=======
+
+#clust jeràrquic
+
+d <- dist(dcon)
+h1 <- hclust(d,method="ward.D")
+plot(h1)
+
+nc = #Nombre de talls del dendograma
+  
+c1 <- cutree(h1,nc)
+c1[1:20]
+
+nc = #un altre nombre de talls
+  
+c2 <- cutree(h1,nc)
+
+table(c1,c2)
+
+cdg <- aggregate(as.data.frame(dcon),list(c1),mean)
+
+library(cluster)
+
+actives <- c(#Variables a utilitzar)
+dissimMatrix <- daisy(dd[,actives], metric = "gower",stand=TRUE)
+  
+dissimMatrix <- dissimMatrix^2
+h1 <- hclust(dissimMatrix, method="ward.D")
+
+plot(h1)
+
+c3 <- cutree(h1,#Nombre de talls)
+table(c3)
+
+#Profiling
+>>>>>>> 2ac55367bbcaade7336ffcba2bd6a455c239be0b
