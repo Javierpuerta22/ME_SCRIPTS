@@ -1,4 +1,5 @@
 path <-  '/Users/usuari/Desktop/2IA/ME/ME_SCRIPTS/'
+data <- read.csv(paste0(path,"database_pre.csv"),sep=";")
 train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 #auxiliars
@@ -14,9 +15,10 @@ table(aux.test$Gender)
 #-----------------------------------------------------------------------------------------------------------
 
 respuesta <- "Gender"
+barplot(data$EDUC)
 hist(aux.train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
 
-aux <- colnames(aux.train)[which(!colnames(aux.train) %in% c(respuesta,"Months.Since.Last.Claim", "Coverage", "Location.Code", "Vehicle.Size"))]
+aux <- colnames(aux.train)[which(!colnames(aux.train) %in% c(respuesta,"State","Customer.Lifetime.Value","Education","Response","Marital.Status","Policy.Type","Number.of.Policies","Months.Since.Last.Claim", "Coverage", "Location.Code", "Vehicle.Size"))]
 explicativas <- paste0(aux, collapse = " + ")
 modelo <- paste0(respuesta, " ~ ", explicativas)
 
@@ -41,14 +43,11 @@ names(sig.var)[sig.var == TRUE]
 p22 <- predict(modelo, test, type = "response")
 
 p22 <- ifelse(p22 > 0.5, 1,0)
-
-# Predim amb el model logístic el conjunt test
-pred1 <- predict.glm(m1,newdata = test, type="response")
 result1 <- table(aux.test$Gender, p22)
 result1
 
-error1 <- sum(result1[1,2], result1[2,1])/sum(result1)
-error1 *100
+accur <- sum(result1[1,2], result1[2,1])/sum(result1)
+accur *100
 
 library(vcd)
 
