@@ -11,9 +11,19 @@ table(aux.train$Gender)
 aux.test$Gender <- ifelse(test$Gender == "M", 0, 1) # Male = 0 / Female = 1
 table(aux.test$Gender)
 
+#-----------------------------------------------------------------------------------------------------------
+
+respuesta <- "Gender"
+hist(aux.train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
+
+aux <- colnames(aux.train)[which(!colnames(aux.train) %in% c(respuesta,"Months.Since.Last.Claim", "Coverage", "Location.Code", "Vehicle.Size"))]
+explicativas <- paste0(aux, collapse = " + ")
+modelo <- paste0(respuesta, " ~ ", explicativas)
+
+#-----------------------------------------------------------------------------------------------------------
 
 # Model logístic
-m1 <- glm(aux.train$Gender ~ . , family = binomial, data= train)
+m1 <- glm(paste0("aux.train$",modelo) , family = binomial, data= train)
 summary(m1)
 plot(m1)
 
@@ -28,17 +38,27 @@ summary(modelo)
 sig.var <- summary(m1)$coeff[-1,4] < 0.01
 names(sig.var)[sig.var == TRUE]
 
+p22 <- predict(modelo, test, type = "response")
+
+p22 <- ifelse(p22 > 0.5, 1,0)
+
 # Predim amb el model logístic el conjunt test
 pred1 <- predict.glm(m1,newdata = test, type="response")
-result1 <- table(aux.test$Gender, floor(pred1+0.5))
+result1 <- table(aux.test$Gender, p22)
 result1
 
 error1 <- sum(result1[1,2], result1[2,1])/sum(result1)
-error1
+error1 *100
+
+library(vcd)
+
+predicciones <- ifelse(test = modelo$fitted.values > 0.5, yes = 1, no = 0)
+
+mosaic(result1, shade = T, colorize = T,
+       gp = gpar(fill = matrix(c("green3", "red2", "red2", "green3"), 2, 2)))
 
 
-
-install.packages("gplots")
+#install.packages("gplots")
 library(ROCR)
 
 pred = ROCR::prediction(pred1,aux.test$Gender)

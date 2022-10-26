@@ -1,6 +1,7 @@
 #install.packages("Metrics")
 library(Metrics)
 
+
 path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
 
 train <- read.csv(paste0(path, "train.csv"),sep = ";")
@@ -18,9 +19,9 @@ corrplot::corrplot(corr = cor(train[, numeriques]), method = "number" )
 
 
 respuesta <- "Total.Claim.Amount"
-hist(train[,respuesta])
+hist(train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
 
-aux <- colnames(train)[which(!colnames(train) %in% c(respuesta, "Policy.Type", "Education", "Vehicle.Class", "Vehicle.Size"))]
+aux <- colnames(train)[which(!colnames(train) %in% c(respuesta,"Months.Since.Last.Claim", "Customer.Lifetime.Value", "Coverage", "EmploymentStatus", "Policy.Type", "Education", "Vehicle.Class", "Vehicle.Size"))]
 explicativas <- paste0(aux, collapse = " + ")
 modelo <- paste0(respuesta, " ~ ", explicativas)
 
@@ -39,8 +40,9 @@ plot(ml1step)
 
 actual <- test[, respuesta]
 
-prediccio <- predict(ml1step, test)
+prediccio <- predict(ml1step, test, type = "response")
 
+cor(actual, prediccio)
 
 accuracy(actual, prediccio)
 

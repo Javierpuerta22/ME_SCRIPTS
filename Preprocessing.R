@@ -34,28 +34,43 @@ na_en_tabla <- apply(is.na(train), 2, sum)    #solo dice el numero de NA que hay
 
 na_en_tabla
 
+#---------- Mimmi ----------------------------------------------------------
 
-#-------- tratamos los NA con knn -----------------------
+hist(dd$Months.Since.Last.Claim) 
 
-attach(train)
+varsConNA <- names(which(colSums(is.na(dd))>0))
+varsSinNA <- colnames(dd)[which(!colnames(dd) %in% varsConNA)]
 
-#Primer agafem totes les numèriques menys la variable que volem imputar
+library(cluster)
 
-clases <- lapply(train, class)      #lista con las clases de cada variable
 
-aux <- subset.data.frame(train, drop = FALSE, select = which(clases == "numeric" | clases == "integer"))
+agggr <- sapply(dd, class)
+varsCat <- names(agggr)[which(agggr == "character")]
 
-aux <- aux[, - 4]
+for (varCat in varsCat) {
+  dd[, varCat] <- as.factor(dd[, varCat])
+}
 
-#Dividim els valors entre NA i no NA
+dissimMatrix <- daisy(dd[, varsSinNA], metric = "gower", stand=TRUE)
 
-aux1 <- aux[!is.na(Months.Since.Last.Claim),]
+distMatrix <- dissimMatrix^2
 
-aux2 <- aux[is.na(Months.Since.Last.Claim),]
+h1 <- hclust(distMatrix, method = "ward.D2")
+plot(h1)
 
-#Fem la funció knn per estudiar els valors que hem de col·locar en els NA i els imputem
+c2 <- cutree(h1, 5)
+dd[,"cluster"] <- c2
 
-knn.ing <- knn(aux1, aux2, Months.Since.Last.Claim[!is.na(Months.Since.Last.Claim)])
+
+for (varNA in varsConNA) {
+  agr <- aggregate(dd[,is.na(varNA)], by = list(dd$cluster), mean, na.rm=TRUE)
+  dd[,paste0(varNA, "_imp")] <- agr[match(dd$cluster, agr$Group.1), "x"]
+}
+
+
+hist(dd$Months.Since.Last.Claim)
+
+dd$cluster <- NULL
 
 Months.Since.Last.Claim[is.na(Months.Since.Last.Claim)] <- as.numeric(levels(knn.ing))
 
@@ -65,6 +80,7 @@ train$Months.Since.Last.Claim <- Months.Since.Last.Claim
 
 write.table(test, file = "test.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 write.table(train, file = "train.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
+write.table(dd, file = "database_pre.csv", sep = ";", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE)
 
 
 
