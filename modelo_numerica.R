@@ -1,7 +1,3 @@
-#install.packages("Metrics")
-library(Metrics)
-
-
 path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
 
 train <- read.csv(paste0(path, "train.csv"),sep = ";")
@@ -15,7 +11,7 @@ categoriques <- which(sapply(train,is.character))
 
 cat <- colnames(train)[categoriques]
 
-corrplot::corrplot(corr = cor(train[, numeriques]), method = "number" )
+#--------------------------------- ANCOVA -------------------------------------------------------------------
 
 
 respuesta <- "Total.Claim.Amount"
@@ -36,16 +32,11 @@ summary(ml1step)
 
 plot(ml1step)
 
-#-------------------------------------- Performance del model --------------------------------------------------
+#-------------------------------------- Performance del model ANCOVA --------------------------------------------------
 
 actual <- test[, respuesta]
 
 prediccio <- predict(ml1step, test, type = "response")
 
-cor(actual, prediccio)
+performance <- cor(actual, prediccio)
 
-accuracy(actual, prediccio)
-
-precision(actual, prediccio)
-
-bias(actual, prediccio)
