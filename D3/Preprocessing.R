@@ -1,11 +1,12 @@
 #-------------------------Arxiu de preprocess
 #------------------ descargar el csv y fijar una seed para poner los NA ----------
+library(class)
+library(cluster)
 
 path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/"
-
 dd <- read.csv(paste0(path, "database.csv"),sep = ",")
 
-library(class)
+
 
 #-------- en el caso que salgan las 1034 filas vac?as --------
 
@@ -30,9 +31,6 @@ hist(dd$Months.Since.Last.Claim)
 
 varsConNA <- names(which(colSums(is.na(dd))>0))
 varsSinNA <- colnames(dd)[which(!colnames(dd) %in% varsConNA)]
-
-library(cluster)
-
 
 agggr <- sapply(dd, class)
 varsCat <- names(agggr)[which(agggr == "character")]

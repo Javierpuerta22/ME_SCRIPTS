@@ -4,15 +4,15 @@ library(RcmdrMisc)
 path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/ME_SCRIPTS/"
 train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
+source(paste0(path, "functions.R"))
 
 # --------------------------------- Variables explicatives --------------------------------
 
 respuesta <- "Months.Since.Policy.Inception"
 hist(train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
+no_queremos <- c("State", "Education", "Vehicle.Class","EmploymentStatus", "Vehicle.Size")
 
-aux <- colnames(train)[which(!colnames(train) %in% c(respuesta,"State", "Education", "Vehicle.Class","EmploymentStatus", "Vehicle.Size"))]
-explicativas <- paste0(aux, collapse = " + ")
-modelo <- paste0(respuesta, " ~ ", explicativas)
+modelo <- create_formula(train, respuesta, no_queremos)
 
 # ---------------------------------- Model binomial ----------------------------------------
 
@@ -24,8 +24,9 @@ modelo <- stepwise(modelo.completo, direction='backward/forward', criterion='AIC
 summary(modelo)
 plot(modelo)
 
+p.est <- predict(modelo, newdata = test, type = "response")
+
 #---------------------------------- Performance del model ---------------------------------------
 
-p.est <- predict(modelo, newdata = test, type = "response")
-cor(p.est,test$Months.Since.Last.Claim)
+performance <- cor(p.est,test$Months.Since.Last.Claim)
 #|Cor| of 0.64

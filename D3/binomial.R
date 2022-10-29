@@ -1,10 +1,12 @@
 library(MASS)
 library(RcmdrMisc)
 
-path <-  '/Users/usuari/Desktop/2IA/ME/ME_SCRIPTS/'
+path <-  'C:/Users/pelot/Desktop/ME_SCRIPTS/D3/'
 data <- read.csv(paste0(path,"database_pre.csv"),sep=";")
 train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
+source(paste0(path, "functions.R"))
+
 #------------------------------------------------ auxiliars ------------------------------------------------------------
 aux.train <- train
 aux.test <- test
@@ -18,10 +20,9 @@ table(aux.test$Gender)
 #----------------------------------------- Creació variables explicatives ------------------------------------------------------------------
 
 respuesta <- "Gender"
-hist(aux.train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
-aux <- colnames(aux.train)[which(!colnames(aux.train) %in% c(respuesta,"State","Customer.Lifetime.Value","Education","Response","Marital.Status","Policy.Type","Number.of.Policies","Months.Since.Last.Claim", "Coverage", "Location.Code", "Vehicle.Size"))]
-explicativas <- paste0(aux, collapse = " + ")
-modelo <- paste0(respuesta, " ~ ", explicativas)
+no_queremos <- c("State","Customer.Lifetime.Value","Education","Response","Marital.Status","Policy.Type","Number.of.Policies","Months.Since.Last.Claim", "Coverage", "Location.Code", "Vehicle.Size")
+
+modelo <- create_formula(aux.train, respuesta, no_queremos)
 
 #--------------------------------------------- Model binomial --------------------------------------------------------------
 
@@ -30,18 +31,19 @@ summary(m1)
 plot(m1)
 
 
-modelo <- stepwise(m1, direction='backward/forward', criterion='AIC')
-plot(modelo)
+ml1step <- stepwise(m1, direction='backward/forward', criterion='AIC')
+summary(ml1step)
+plot(ml1step)
 
-summary(modelo)
+
 
 # Variables significativas
-sig.var <- summary(m1)$coeff[-1,4] < 0.01
+sig.var <- summary(ml1step)$coeff[-1,4] < 0.01
 names(sig.var)[sig.var == TRUE]
 
 #------------------------------------------- Performance del model -----------------------------------------------------------
 
-prediccio <- predict(modelo, test, type = "response")
+prediccio <- predict(ml1step, test, type = "response")
 
 prediccio <- ifelse(p22 > 0.5, 1,0)
 taula <- table(aux.test$Gender, prediccio)

@@ -1,4 +1,4 @@
-#------- arxiu per exportar funcions de descriptiva ---------
+#------- arxiu per exportar funcions ---------
 
 #---------- funcion descriptiva univariante ---------
 
@@ -90,5 +90,49 @@ info_bi <- function(X){
     }
     k <- k + 1
   }
+}
+
+
+# ----------------------- FUNCIÓN CREAR FÒRMULA DE MODELO ------------------------
+
+#dd es un dataframe cualquiera 
+#response es la variable respuesta
+#no_expl es un vector con las variables que no se quieren
+
+create_formula <- function(dd, response, no_expl){
+
+  aux <- colnames(dd)[which(!colnames(dd) %in% c(response,no_expl))]
+  explicativas <- paste0(aux, collapse = " + ")
+  modelo <- paste0(response, " ~ ", explicativas)
+  
+  return(modelo)
+}
+
+# ---------------------- FUNCIÓN QUE DEVUELVE LAS VAR CAT O NUMÉRICAS DE UN DATAFRAME -------------------
+
+#dd es un dataframe cualquiera
+#Si nombre es TRUE devuelve vector con el nombre de las var numéricas
+
+var_num <- function(dd, nombre = FALSE){
+  numero <-which(sapply(dd,is.numeric))
+  
+  if (nombre == TRUE){
+    var <- colnames(dd)[numero]
+    return(var)
+  }
+  return(numero)
+}
+
+#dd es un dataframe cualquiera
+#Si nombre es TRUE devuelve vector con el nombre de las var categóricas
+
+var_cat <- function(dd, nombre = FALSE){
+  numero <-which(sapply(dd,is.character))
+  
+  if (nombre == TRUE){
+    var <- colnames(dd)[numero]
+    return(var)
+  }
+  return(numero)
 }
 

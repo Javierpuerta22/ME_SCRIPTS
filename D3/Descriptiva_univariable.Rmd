@@ -13,7 +13,7 @@ path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/D3/"
 
 dd <- read.csv(paste0(path, "database_pre.csv"), sep = ";")
 
-source(paste0(path, "descriptiva.R"))
+source(paste0(path, "functions.R"))
 ```
 
 

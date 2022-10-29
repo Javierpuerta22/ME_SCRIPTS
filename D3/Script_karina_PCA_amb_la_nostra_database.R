@@ -146,7 +146,7 @@ text(X,Y,labels=etiq,col="darkblue", cex=0.7)
 
 
 # ===============================================================================================================
-# ======================================= Ver donde está el centroide de las categóricas ========================
+# ======================================= Ver donde está el centroide de las modalidades de las categóricas ========================
 #nominal qualitative variables
 
 dcat<-c(1,3:7,9:10,15,17:18)
