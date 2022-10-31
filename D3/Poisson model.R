@@ -8,9 +8,9 @@ source(paste0(path, "functions.R"))
 
 # --------------------------------- Variables explicatives --------------------------------
 
-respuesta <- "Months.Since.Policy.Inception"
+respuesta <- "Number.of.Policies"
 hist(train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
-no_queremos <- c("State", "Education", "Vehicle.Class","EmploymentStatus", "Vehicle.Size")
+no_queremos <- c("State","Response", "EmploymentStatus","Income","Education","Months.Since.Policy.Inception","Months.Since.Last.Claim")
 
 modelo <- create_formula(train, respuesta, no_queremos)
 
