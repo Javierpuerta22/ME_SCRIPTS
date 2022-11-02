@@ -1,5 +1,6 @@
 #---------------------------------------------- ARCHIVO CON EL MODELO ANCOVA ---------------------------
 library(MASS)
+library(Metrics)
 library(car)
 
 path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/D3/"
@@ -33,6 +34,12 @@ summary(ancova)
 plot(ancova)
 
 #------------------------------- Performance ---------------------------------------
+prediccio <- predict(ancova, test, type = "response")
 
-performance <- 0.1212 #es el valor del R^2
+a <- rmse(test$Total.Claim.Amount, prediccio)
+
+desv_porc <- a/mean(test$Total.Claim.Amount)
+desv_porc
+
+
 

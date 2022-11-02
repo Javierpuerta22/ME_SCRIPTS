@@ -15,7 +15,7 @@ attach(train)
 cat <- var_cat(train, TRUE)
 
 for (i in cat){
-  train$i <- as.factor(train[, i])
+  train[, i] <- as.factor(train[, i])
 }
 
 anova <- aov(Income~ Education + EmploymentStatus + Location.Code + Vehicle.Size, data = train )
@@ -32,6 +32,9 @@ anova(anova)
 #--------------------------- Rendiment de l'anova --------------------------------------------------------
 actually <- test[, respuesta]
 prediction <- predict(anova, test, type = "response")
-performance <- cor(actually, prediction)
 
-R2 <- 0.69 # valor R^2 del modelo
+a <- rmse(test$Income, prediction)
+a
+
+desv_porc <- a/mean(test$Income)
+desv_porc

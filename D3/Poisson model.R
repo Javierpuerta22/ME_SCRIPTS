@@ -28,5 +28,7 @@ p.est <- predict(modelo, newdata = test, type = "response")
 
 #---------------------------------- Performance del model ---------------------------------------
 
-performance <- cor(p.est,test$Months.Since.Last.Claim)
-#|Cor| of 0.64
+a <- rmse(test$Number.of.Policies, p.est)
+
+desv_porc <- a/mean(test$Number.of.Policies)
+desv_porc
