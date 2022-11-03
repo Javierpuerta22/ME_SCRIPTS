@@ -46,7 +46,7 @@ info_bi <- function(X){
   k <- 2
   for (var1 in c(1:ncol(X))){
     for (var2 in c(k:(ncol(X)))){
-      if (k < 19){
+      if (k < (ncol(X)+1)){
       
       v1 <- X[,var1]
       v2 <- X[,var2]

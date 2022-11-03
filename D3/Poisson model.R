@@ -8,9 +8,9 @@ source(paste0(path, "functions.R"))
 
 # --------------------------------- Variables explicatives --------------------------------
 
-respuesta <- "Months.Since.Policy.Inception"
+respuesta <- "Number.of.Policies"
 hist(train[,respuesta], main = paste0("Histograma de ", respuesta), xlab = respuesta)
-no_queremos <- c("State", "Education", "Vehicle.Class","EmploymentStatus", "Vehicle.Size")
+no_queremos <- c("State","Response", "EmploymentStatus","Income","Education","Months.Since.Policy.Inception","Months.Since.Last.Claim")
 
 modelo <- create_formula(train, respuesta, no_queremos)
 
@@ -28,5 +28,7 @@ p.est <- predict(modelo, newdata = test, type = "response")
 
 #---------------------------------- Performance del model ---------------------------------------
 
-performance <- cor(p.est,test$Months.Since.Last.Claim)
-#|Cor| of 0.64
+a <- rmse(test$Number.of.Policies, p.est)
+
+desv_porc <- a/mean(test$Number.of.Policies)
+desv_porc

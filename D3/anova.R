@@ -12,14 +12,29 @@ hist(train$Income)
 
 attach(train)
 
+cat <- var_cat(train, TRUE)
+
+for (i in cat){
+  train[, i] <- as.factor(train[, i])
+}
+
 anova <- aov(Income~ Education + EmploymentStatus + Location.Code + Vehicle.Size, data = train )
 summary(anova)
 plot(anova)
 
-actually <- test[, respuesta]
+formula <- create_formula(train, respuesta, c(var_num(train, TRUE), "Vehicle.Class", "Marital.Status", "State","Response", "Gender","Coverage","Policy.Type"))
 
-prediction <- predict(anova, test, type = "response")
+anova <- lm(formula, data = train)
+summary(anova)
+anova(anova)
+
 
 #--------------------------- Rendiment de l'anova --------------------------------------------------------
+actually <- test[, respuesta]
+prediction <- predict(anova, test, type = "response")
 
-performance <- cor(actually, prediction)
+a <- rmse(test$Income, prediction)
+a
+
+desv_porc <- a/mean(test$Income)
+desv_porc
