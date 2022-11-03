@@ -1,0 +1,24 @@
+---
+title: "Descriptiva_univariable"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r inicialización, include = FALSE}
+path <- "C:/Users/pelot/Desktop/ME_SCRIPTS/D3/"
+
+dd <- read.csv(paste0(path, "database_pre.csv"), sep = ";")
+
+source(paste0(path, "functions.R"))
+```
+
+
+```{r funciones, echo=FALSE}
+
+info_uni(dd)
+
+```
