@@ -41,6 +41,7 @@ p.est <- predict(modelo, newdata = test, type = "response")
 
 #---------------------------------- Performance del model ---------------------------------------
 
+<<<<<<< HEAD
 performance <- cor(p.est,test$Number.of.Policies)
 
 #---------------------------------- Root mean square error ---------------------------------------
@@ -52,3 +53,9 @@ acc
 aux2 <- rmse(test$Customer.Lifetime.Value,p.est)
 acc2 <- aux2/mean(test$Customer.Lifetime.Value)
 acc2
+=======
+a <- rmse(test$Number.of.Policies, p.est)
+
+desv_porc <- a/mean(test$Number.of.Policies)
+desv_porc
+>>>>>>> 19b33c917b1517a6fa3f32745a90a4d74bf1e662

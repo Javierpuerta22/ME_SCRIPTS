@@ -45,12 +45,12 @@ names(sig.var)[sig.var == TRUE]
 
 prediccio <- predict(ml1step, test, type = "response")
 
-prediccio <- ifelse(p22 > 0.5, 1,0)
+prediccio <- ifelse(prediccio > 0.5, 1,0)
 taula <- table(aux.test$Gender, prediccio)
 taula
 
-accur <- sum(taula[1,1], taula[2,2])/sum(taula) *100
-accur 
+error <- sum(taula[1,1], taula[2,2])/sum(taula) *100
+error
 
 
 
