@@ -49,8 +49,8 @@ prediccio <- ifelse(prediccio > 0.5, 1,0)
 taula <- table(aux.test$Gender, prediccio)
 taula
 
-error <- sum(taula[1,1], taula[2,2])/sum(taula) *100
-error
+accur <- sum(taula[1,1], taula[2,2])/sum(taula) *100
+accur
 
 
 
