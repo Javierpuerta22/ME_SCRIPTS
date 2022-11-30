@@ -2,14 +2,14 @@
 
 setwd("D:/UPC/ME/ME_SCRIPTS/")
 dd <- read.table("database_pre.csv",header=T, sep=";");
-                  
+             
 ##### PCA with FactoMineR
 install.packages("FactoMineR")
 library(FactoMineR)
 
 # Perform PCA
 ?PCA
-res.pca<-PCA(dd, ncp = 6, quali.sup = c(1,3,4,5,6,7,9,10,15,17,18),graph=FALSE)
+res.pca<-PCA(dd, ncp = 7, quali.sup = c(1,3,4,5,6,7,9,10,15,17,18),graph=FALSE)
 res.pca
 
 # Eigenvalues
@@ -46,7 +46,7 @@ abline(h=0.12,col="red",lwd=2)
 abline(h=0.08,col="red",lty=2)
 
 # Number of clusters
-nc = 3
+nc = 5
 
 # Cut tree
 clus1<- cutree(hc,nc)
@@ -64,7 +64,7 @@ Tss <- sum(rowSums(Psi^2))
 100*Bss/Tss
 
 # Consolidate the partition
-clus2<-kmeans(Psi,centers=cdg)
+clus2<-kmeans(Psi[,2:7],centers=cdg)
 clus2$size
 
 Bss <- sum(rowSums(clus2$centers^2)*clus2$size)
@@ -93,14 +93,23 @@ names(res.hcpc$desc.var)
 # desc.var$test.chi2 #
 # A.1. The categorical variables which characterizes the clusters #
 res.hcpc$desc.var$test.chi2
+<<<<<<< HEAD
+DictamenXClus<-table(res.hcpc$data.clust$LOCC,res.hcpc$data.clust$clust)
+=======
 DictamenXClus<-table(res.hcpc$data.clust$EMPS,res.hcpc$data.clust$clust)
+>>>>>>> e31cc13dc292222f796bf9104d9f95d134678478
 sweep(DictamenXClus,2,apply(DictamenXClus,2,sum),"/")
 
 # desc.var$category #
 # A.2. The description of each cluster by the categories #
 res.hcpc$desc.var$category
+<<<<<<< HEAD
+positiuXclust1<-table(res.hcpc$data.clust$LOCC,res.hcpc$data.clust$clust)[2,1]
+positiu<-sum(res.hcpc$data.clust$Dictamen=="positiu",na.rm=TRUE)
+=======
 positiuXclust1<-table(res.hcpc$data.clust$EMPS,res.hcpc$data.clust$clust)[2,1]
 positiu<-sum(res.hcpc$data.clust$EMP=="positiu",na.rm=TRUE)
+>>>>>>> e31cc13dc292222f796bf9104d9f95d134678478
 clust1<-sum(res.hcpc$data.clust$clust=="1")
 N<-nrow(res.hcpc$data.clust)
 positiuXclust1/positiu #Cla/Mod
@@ -110,16 +119,28 @@ positiu/N #Global
 # desc.var$quanti.var #
 # A.3. The quantitative variables which characterizes the clusters #
 res.hcpc$desc.var$quanti.var
+<<<<<<< HEAD
+summary(lm(res.hcpc$data.clust$INC~res.hcpc$data.clust$clust))
+summary(lm(res.hcpc$data.clust$CLV ~res.hcpc$data.clust$clust))
+=======
 summary(lm(res.hcpc$data.clust$CLV~res.hcpc$data.clust$clust))
 summary(lm(res.hcpc$data.clust$TCA ~res.hcpc$data.clust$clust))
+>>>>>>> e31cc13dc292222f796bf9104d9f95d134678478
 
 # desc.var$quanti #
 # A.4. The description of each cluster by the quantitative variables #
 res.hcpc$desc.var$quanti
+<<<<<<< HEAD
+mean(res.hcpc$data.clust$NOP[res.hcpc$data.clust$clust==1])
+mean(res.hcpc$data.clust$NOP)
+sd(res.hcpc$data.clust$NOP[res.hcpc$data.clust$clust==1])
+sd(res.hcpc$data.clust$NOP)
+=======
 mean(res.hcpc$data.clust$CLV[res.hcpc$data.clust$clust==1])
 mean(res.hcpc$data.clust$CLV)
 sd(res.hcpc$data.clust$CLV[res.hcpc$data.clust$clust==1])
 sd(res.hcpc$data.clust$CLV)
+>>>>>>> e31cc13dc292222f796bf9104d9f95d134678478
 
 # desc.axes #
 ##B. The description of the clusters by the axes #
