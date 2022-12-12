@@ -26,13 +26,24 @@ plot(res.pca,choix="ind",invisible="quali",axes=c(1,2),label="none")
 plot(res.pca,choix="ind",invisible="quali",axes=c(1,3),label="none")
 plot(res.pca,choix="ind",invisible="quali",axes=c(1,4),label="none")
 
+plot(res.pca$ind$coord, col=as.numeric(c3))
+abline(h=0,v=0,col="gray")
+legend("topright",c("c1","c2","c3"),pch=1,col=c(1:3))
+
 
 ############################################################
 # CLUSTERING WITH THE PRINCIPAL COMPONENTS
 
 # Compute distances
+# Compute distances
 Psi<-res.pca$ind$coord
-D = dist(Psi)
+D = dist(dd)
+
+dcon = dd[, var_num(dd)]
+
+d  <- dist(dcon)
+h1 <- hclust(d,method="ward")  # NOTICE THE COST
+plot(h1)
 
 # Hierarchical clustering
 hc <- hclust(D, method = "ward.D2") 
@@ -41,14 +52,9 @@ plot(hc)
 # Number of clusters
 nc = 3
 
-# Cut tree
-c3 <- cutree(hc,nc)
-table(c3)
+c3 <- cutree(h1,nc)
 
-# See the clusters in PCA1
-plot(Psi, col=as.numeric(c3))
-abline(h=0,v=0,col="gray")
-legend("topright",c("c1","c2","c3"),pch=1,col=c(1:3))
+dcon["cluster"] <- c3 
 
 #=============================================================================================================================
 #Profiling
