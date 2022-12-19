@@ -19,8 +19,6 @@ library(forecast)
 DanielsContrast(datosTS)
 KWContrast(datosTS)
 
-
-
 # Contrasts #
 
 # Contraste de Daniels

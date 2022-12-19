@@ -3,7 +3,7 @@ library(Metrics)
 library(MASS)
 library(RcmdrMisc)
 
-path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/D3/"
+path <- "C:/Users/adria/IA/3r Quadri/ME/ME_SCRIPTS/"
 train <- read.csv(paste0(path,"train.csv"),sep=";")
 test <- read.csv(paste0(path,"test.csv"),sep=";")
 source(paste0(path, "functions.R"))

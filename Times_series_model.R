@@ -27,13 +27,26 @@ pacf(log_ts_d1, lag.max = 46*12)}
 {acf(log_ts_d1, lag.max = 12)
   pacf(log_ts_d1, lag.max = 12)}
 
-
+library(forecast)
 # ARIMA(0, 1, 2)(0, 0, 2)_12
 forecast::auto.arima(timesSeries)
 arima12 <- arima(timesSeries, order = c(0, 1, 2), seasonal = c(0, 0, 2))
+summary(arima12)
+library(lmtest)
+coeftest(arima12)
 
-plot(arima12)
-residuals.plot(arima12)
-
-
+residuales <- residuals(arima12)
+mean(residuales)
+var(residuales)
+checkresiduals(arima12)
+####Prediccions
+a <- length(timesSeries) * 0.6
+setenta <- datosTS[0:a]
+timeSeries70 <- ts(setenta,start=c(1976,1), frequency = 12)
+arima70 <- arima(timeSeries70, order = c(0, 1, 2), seasonal = c(0, 0, 2))
+pred <- forecast(arima70,h=48)
+b <- a+47
+aux <-datosTS[a:b]
+autoplot(pred)
+accuracy(pred,aux)
 
